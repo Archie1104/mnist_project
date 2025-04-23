@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Build Docker image
         run: docker build -t archie0223/app-archie:1745379068 .
 
@@ -23,11 +23,12 @@ jobs:
         with:
           name: app-image
           path: app-archie.tar
+
   build2:
-      runs-on: ubuntu-latest
-      steps:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v3
-      
+
       - name: Build Docker image
         run: docker build -t archie0223/app-archie:1745379068 .
 
@@ -42,7 +43,7 @@ jobs:
 
   push:
     runs-on: ubuntu-latest
-    needs : [build1, build2]  # ensures this runs after the build job
+    needs: [build1, build2]
     steps:
       - name: Download image artifact
         uses: actions/download-artifact@v4
@@ -55,8 +56,6 @@ jobs:
 
       - name: Login to DockerHub
         run: docker login -u "archie0223" -p "668866wmywanm"
-
-
 
       - name: Push Docker image
         run: docker push archie0223/app-archie:1745379068
