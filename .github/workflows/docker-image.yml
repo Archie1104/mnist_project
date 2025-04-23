@@ -38,7 +38,8 @@ jobs:
         run: docker load -i app-archie.tar
 
       - name: Login to DockerHub
-        run: echo 668866wmywanm  | docker login -u Archie0223  --password-stdin
+        run: echo "668866wmywanm" | docker login -u "Archie0223" --password-stdin
+
 
       - name: Push Docker image
         run: docker push archie0223/app-archie:1745379068
