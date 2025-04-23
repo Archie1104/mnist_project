@@ -38,7 +38,7 @@ jobs:
         run: docker load -i app-archie.tar
 
       - name: Login to DockerHub
-        run: docker login -u "Archie0223" -p "668866wmywanm"
+        run: docker login -u "archie0223" -p "668866wmywanm"
 
 
 
