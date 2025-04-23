@@ -26,8 +26,8 @@ jobs:
         run: docker build . --file Dockerfile --tag app-archie:${{ env.TAG }}
 
       - name: Tag the image for Docker Hub
-        run: docker tag app-archie:${{ env.TAG }} your-dockerhub-username/app-archie:${{ env.TAG }}
+        run: docker tag app-archie:${{ env.TAG }} cc2838088965@gmail.com/app-archie:${{ env.TAG }}
 
       - name: Push the image to Docker Hub
-        run: docker push your-dockerhub-username/app-archie:${{ env.TAG }}
+        run: docker push cc2838088965@gmail.com/app-archie:${{ env.TAG }}
 
