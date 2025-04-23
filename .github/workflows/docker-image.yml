@@ -9,41 +9,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+      
+      - name: Build Docker image
+        run: docker build -t archie0223/app-archie:1745379068 .
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+      - name: Save Docker image as tar
+        run: docker save archie0223/app-archie:1745379068 -o app-archie.tar
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
         with:
-          username: archie0223
-          password: 668866wmywanm
-
-      - name: Generate timestamp tag
-        run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
-
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag app-archie:${{ env.TAG }}
-
-      - name: Tag the image for Docker Hub
-        run: docker tag app-archie:${{ env.TAG }} archie0223/app-archie:${{ env.TAG }}
-
+          name: app-image
+          path: app-archie.tar
 
   push:
-    needs: build
     runs-on: ubuntu-latest
-
+    needs: build  # ensures this runs after the build job
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+      - name: Download image artifact
+        uses: actions/download-artifact@v4
         with:
-          username: archie0223
-          password: 668866wmywanm
+          name: app-image
+          path: .
 
-      - name: Generate timestamp tag
-        run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
+      - name: Load Docker image
+        run: docker load -i app-archie.tar
 
-      - name: Push the image to Docker Hub
-        run: docker push archie0223/app-archie:${{ env.TAG }}
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push Docker image
+        run: docker push archie0223/app-archie:1745379068
