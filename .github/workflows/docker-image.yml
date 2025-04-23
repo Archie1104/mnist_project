@@ -16,8 +16,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.Archie }}
-          password: ${{ secrets.12345678 }}
+          username: ${{ Archie }}
+          password: ${{ 12345678 }}
 
       - name: Generate timestamp tag
         run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
