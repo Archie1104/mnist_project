@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build Docker image
+      - name: Build Docker image2
         run: docker build -t archie0223/app-archie:1745379068 .
 
       - name: Save Docker image as tar
