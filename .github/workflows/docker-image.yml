@@ -20,7 +20,7 @@ jobs:
           password: 668866wmywanm
 
       - name: Generate timestamp tag
-        run: echo "tag=$(date +%s)" >> $GITHUB_ENV
+        run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag app-archie:${{ env.TAG }}
