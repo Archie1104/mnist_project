@@ -28,6 +28,21 @@ jobs:
       - name: Tag the image for Docker Hub
         run: docker tag app-archie:${{ env.TAG }} archie0223/app-archie:${{ env.TAG }}
 
+
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: archie0223
+          password: 668866wmywanm
+
+      - name: Generate timestamp tag
+        run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
+
       - name: Push the image to Docker Hub
         run: docker push archie0223/app-archie:${{ env.TAG }}
-
