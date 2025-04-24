@@ -21,7 +21,7 @@ jobs:
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-image
+          name: app-image-00   # ✅ Unique artifact name
           path: app-00archie.tar
 
   build2:
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build Docker image2
+      - name: Build Docker image
         run: docker build -t archie0223/app-archie:183150029233 .
 
       - name: Save Docker image as tar
@@ -38,30 +38,36 @@ jobs:
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-image
+          name: app-image-01   # ✅ Different artifact name
           path: app-01archie.tar
 
   push:
     runs-on: ubuntu-latest
     needs: [build1, build2]
     steps:
-      - name: Download image artifact
+      - name: Download image artifact 0
         uses: actions/download-artifact@v4
         with:
-          name: app-image
+          name: app-image-00
           path: .
 
-      - name: Load Docker image1
-        run: docker load -i app-01archie.tar
+      - name: Download image artifact 1
+        uses: actions/download-artifact@v4
+        with:
+          name: app-image-01
+          path: .
 
-      - name: Load Docker image0
+      - name: Load Docker image 0
         run: docker load -i app-00archie.tar
 
+      - name: Load Docker image 1
+        run: docker load -i app-01archie.tar
+
       - name: Login to DockerHub
-        run: docker login -u "archie0223" -p "668866wmywanm"
+        run: docker login -u "archie0223" -p "668866wmywanm"  # ⚠️ Not secure, use secrets!
 
-      - name: Push Docker image1
-        run: docker push archie0223/app-archie:183150029233
-
-      - name: Push Docker image0
+      - name: Push Docker image 0
         run: docker push archie0223/app-archie:2838088965
+
+      - name: Push Docker image 1
+        run: docker push archie0223/app-archie:183150029233
