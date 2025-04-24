@@ -16,13 +16,13 @@ jobs:
         run: docker build -t archie0223/app-archie:2838088965 .
 
       - name: Save Docker image as tar
-        run: docker save archie0223/app-archie:2838088965 -o app-archie.tar
+        run: docker save archie0223/app-archie:2838088965 -o app-00archie.tar
 
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-image
-          path: app-archie.tar
+          path: app-00archie.tar
 
   build2:
     runs-on: ubuntu-latest
@@ -33,13 +33,13 @@ jobs:
         run: docker build -t archie0223/app-archie:1831529233 .
 
       - name: Save Docker image as tar
-        run: docker save archie0223/app-archie:1831529233 -o app-archie.tar
+        run: docker save archie0223/app-archie:1831529233 -o app-01archie.tar
 
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-image
-          path: app-archie.tar
+          path: app-01archie.tar
 
   push:
     runs-on: ubuntu-latest
@@ -51,11 +51,17 @@ jobs:
           name: app-image
           path: .
 
-      - name: Load Docker image
-        run: docker load -i app-archie.tar
+      - name: Load Docker image1
+        run: docker load -i app-01archie.tar
+
+      - name: Load Docker image0
+        run: docker load -i app-00archie.tar
 
       - name: Login to DockerHub
         run: docker login -u "archie0223" -p "668866wmywanm"
 
-      - name: Push Docker image
-        run: docker push archie0223/app-archie:1745379068
+      - name: Push Docker image1
+        run: docker push archie0223/app-archie:1831529233
+
+      - name: Push Docker image0
+        run: docker push archie0223/app-archie:2838088965
